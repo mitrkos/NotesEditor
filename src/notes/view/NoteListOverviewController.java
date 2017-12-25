@@ -27,8 +27,12 @@ public class NoteListOverviewController {
     private void initialize() {
         noteColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
 
+        //А что было, если не вызывать этот метод?
         showUserNote(null);
 
+        //Если сделать Ctrl+LeftClick на методе "addListener" - можно глянуть его описание,
+        //Там сказано, что если не убирать регистрацию Listener-а при удалении элемента, на пример, то
+        //Со временем будет заметна утечка памяти. Надо применить .removeListener() после удаления элемента.
         noteTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showUserNote(newValue)
         );
