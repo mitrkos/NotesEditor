@@ -52,36 +52,41 @@ public class MainApp extends Application {
 
     public void showAuthorizationOverview() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/AuthorizationOverview.fxml"));
-            AnchorPane authorizationOverview = loader.load();
+                    //Можно вынести в отдельный метод
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(MainApp.class.getResource("view/AuthorizationOverview.fxml"));
+                    AnchorPane authorizationOverview = loader.load();
 
-            AuthorizationOverviewController controller = loader.getController();
-            controller.setMainApp(this);
+                    AuthorizationOverviewController controller = loader.getController();
+                    controller.setMainApp(this);
 
 
-            Scene scene = new Scene(authorizationOverview);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+                    Scene scene = new Scene(authorizationOverview);
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    // Можно вынести в класс где используется, т.к. этот метод больше подходит под логику AuthorizationOverviewController
     public void showNoteListOverview(User user) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/NoteListOverview.fxml"));
+                    //Можно вынести в отдельный метод
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(MainApp.class.getResource("view/NoteListOverview.fxml"));
 
-            AnchorPane noteListOverview = loader.load();
+                    AnchorPane noteListOverview = loader.load();
 
-            NoteListOverviewController controller = loader.getController();
+                    NoteListOverviewController controller = loader.getController();
+                    controller.setMainApp(this);
+
             controller.setUser(user);
-            controller.setMainApp(this);
 
-            Scene scene = new Scene(noteListOverview);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+                    Scene scene = new Scene(noteListOverview);
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
