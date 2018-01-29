@@ -2,19 +2,17 @@ package notes;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import notes.model.Note;
 import notes.model.User;
 import notes.view.AuthorizationOverviewController;
-import notes.view.NoteEditDialogController;
-import notes.view.NoteListOverviewController;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static notes.Utils.PrepareJavaFXUtils.initLoader;
+import static notes.Utils.PrepareJavaFXUtils.showScene;
 
 public class MainApp extends Application {
 
@@ -46,70 +44,23 @@ public class MainApp extends Application {
     public Map<String, User> getUsersMap() {
         return usersMap;
     }
+
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
     public void showAuthorizationOverview() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/AuthorizationOverview.fxml"));
+            FXMLLoader loader = initLoader("Resources/AuthorizationOverview.fxml");
             AnchorPane authorizationOverview = loader.load();
 
             AuthorizationOverviewController controller = loader.getController();
             controller.setMainApp(this);
 
-
-            Scene scene = new Scene(authorizationOverview);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            showScene(authorizationOverview, primaryStage);
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-    public void showNoteListOverview(User user) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/NoteListOverview.fxml"));
-
-            AnchorPane noteListOverview = loader.load();
-
-            NoteListOverviewController controller = loader.getController();
-            controller.setUser(user);
-            controller.setMainApp(this);
-
-            Scene scene = new Scene(noteListOverview);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public boolean showNoteEditDialog(Note note) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/NoteEditDialog.fxml"));
-
-            AnchorPane page = loader.load();
-
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit note");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            NoteEditDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setNote(note);
-
-            dialogStage.showAndWait();
-
-            return controller.isOkClicked();
-        } catch (IOException e){
-            e.printStackTrace();
-            return false;
         }
     }
 }

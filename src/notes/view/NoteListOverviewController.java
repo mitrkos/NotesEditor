@@ -1,11 +1,19 @@
 package notes.view;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import notes.MainApp;
 import notes.model.Note;
 import notes.model.User;
 
+import java.io.IOException;
+
+import static notes.Utils.PrepareJavaFXUtils.initLoader;
 
 public class NoteListOverviewController {
 
@@ -27,21 +35,21 @@ public class NoteListOverviewController {
     private void initialize() {
         noteColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
 
-        showUserNote(null);
-
         noteTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showUserNote(newValue)
         );
     }
+
     @FXML
     private void handledLogOut() {
         mainApp.showAuthorizationOverview();
     }
+
     @FXML
     private void handledEdit() {
         Note selectedNote = noteTable.getSelectionModel().getSelectedItem();
         if (selectedNote != null) {
-            boolean isOkClicked = mainApp.showNoteEditDialog(selectedNote);
+            boolean isOkClicked = showNoteEditDialog(selectedNote);
             if (isOkClicked) {
                 showUserNote(selectedNote);
             }
@@ -49,19 +57,22 @@ public class NoteListOverviewController {
             showAlert();
         }
     }
+
     @FXML
     private void handledNew() {
         Note tempNote = new Note();
-        boolean isOkClicked = mainApp.showNoteEditDialog(tempNote);
+        boolean isOkClicked = showNoteEditDialog(tempNote);
         if (isOkClicked) {
             user.getNotesData().add(tempNote);
         }
     }
+
     @FXML
     private void handledDelete() {
         int selectedIndex = noteTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             noteTable.getItems().remove(selectedIndex);
+            //тут удаляю запись, и как-то еще надо удалить listener? не получается разобраться
         } else {
             showAlert();
         }
@@ -72,6 +83,7 @@ public class NoteListOverviewController {
         username.setText(this.user.getLogin());
         noteTable.setItems(user.getNotesData());
     }
+
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -85,6 +97,7 @@ public class NoteListOverviewController {
             showedNodeBody.setText("");
         }
     }
+
     private void showAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initOwner(mainApp.getPrimaryStage());
@@ -93,5 +106,30 @@ public class NoteListOverviewController {
         alert.setContentText("Please select a note in the table");
 
         alert.showAndWait();
+    }
+
+    public boolean showNoteEditDialog(Note note) {
+        try {
+            FXMLLoader loader = initLoader("Resources/NoteEditDialog.fxml");
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit note");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainApp.getPrimaryStage());
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            NoteEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setNote(note);
+
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

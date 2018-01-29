@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="notes.view.NoteEditDialogController">
    <children>
       <TextField fx:id="editedTitle" layoutX="50.0" layoutY="55.0" prefHeight="49.0" prefWidth="456.0" promptText="TITLE" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <TextField fx:id="editedBody" alignment="TOP_LEFT" layoutX="50.0" layoutY="120.0" prefHeight="215.0" prefWidth="500.0" promptText="BODY" />
+      <TextArea fx:id="editedBody" layoutX="50.0" layoutY="122.0" prefHeight="216.0" prefWidth="500.0" wrapText="true" />
       <Label layoutX="260.0" layoutY="14.0" text="EDITOR">
          <font>
             <Font size="24.0" />

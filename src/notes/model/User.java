@@ -22,6 +22,7 @@ public class User {
     public ObservableList<Note> getNotesData() {
         return notesData;
     }
+
     public void setNotesData(ObservableList<Note> notesData) {
         this.notesData = notesData;
     }
@@ -29,9 +30,11 @@ public class User {
     public String getLogin() {
         return login.get();
     }
+
     public StringProperty loginProperty() {
         return login;
     }
+
     public void setLogin(String login) {
         this.login.set(login);
     }

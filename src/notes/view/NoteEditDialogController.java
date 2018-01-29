@@ -2,6 +2,7 @@ package notes.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import notes.model.Note;
@@ -17,11 +18,12 @@ public class NoteEditDialogController {
     @FXML
     private TextField editedTitle;
     @FXML
-    private TextField editedBody;
+    private TextArea editedBody;
 
     public Stage getDialogStage() {
         return dialogStage;
     }
+
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
@@ -29,6 +31,7 @@ public class NoteEditDialogController {
     public Note getNote() {
         return note;
     }
+
     public void setNote(Note note) {
         this.note = note;
         editedTitle.setText(note.getTitle());
@@ -38,13 +41,16 @@ public class NoteEditDialogController {
     public boolean isOkClicked() {
         return isOkClicked;
     }
+
     public void setOkClicked(boolean okClicked) {
         isOkClicked = okClicked;
     }
 
 
     @FXML
-    private void initialize() {}
+    private void initialize() {
+    }
+
     @FXML
     private void handledOK() {
         String newTitle = editedTitle.getText();
@@ -64,6 +70,7 @@ public class NoteEditDialogController {
             alert.showAndWait();
         }
     }
+
     @FXML
     private void handledCancel() {
         dialogStage.close();
